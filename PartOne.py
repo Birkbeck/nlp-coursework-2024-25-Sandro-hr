@@ -5,7 +5,8 @@
 import nltk
 import spacy
 from pathlib import Path
-
+import os
+import pandas as pd
 
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
@@ -43,7 +44,29 @@ def count_syl(word, d):
 def read_novels(path=Path.cwd() / "texts" / "novels"):
     """Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
     author, and year"""
-    pass
+    #dirpath = r'p1-texts\novels'
+    
+    data = []
+    for root, dirs, files in os.walk(path, topdown=False):
+        for name in files:
+            if name.endswith(".txt"):
+                path = os.path.join(root,name)
+                title, author, year = name[:-4].split('-')
+                title = title.replace('_', ' ')
+                author = author.replace('_', ' ')
+                year = int(year)
+                with open(path, encoding='utf-8') as f:
+                    text = f.read()
+                data.append({
+                    'text': text,
+                    'title': title,
+                    'author': author,
+                    'year': year
+                })
+    df = pd.DataFrame(data)
+    df = df.sort_values('year', ascending=True).reset_index(drop=True)
+    return df
+
 
 
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
@@ -54,6 +77,8 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
+
+    
     pass
 
 
@@ -96,10 +121,10 @@ if __name__ == "__main__":
     """
     uncomment the following lines to run the functions once you have completed them
     """
-    #path = Path.cwd() / "p1-texts" / "novels"
-    #print(path)
-    #df = read_novels(path) # this line will fail until you have completed the read_novels function above.
-    #print(df.head())
+    path = Path.cwd() / "p1-texts" / "novels"
+    print(path)
+    df = read_novels(path) # this line will fail until you have completed the read_novels function above.
+    print(df.head())
     #nltk.download("cmudict")
     #parse(df)
     #print(df.head())
