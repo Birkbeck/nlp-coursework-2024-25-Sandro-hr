@@ -8,10 +8,11 @@ import spacy
 from pathlib import Path
 import os
 import pandas as pd
+import re
 
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
-
+d = cmudict.dict()
 
 
 def fk_level(text, d):
@@ -38,16 +39,26 @@ def count_syl(word, d):
     Returns:
         int: The number of syllables in the word.
     """
-
     if word in d:
+        # Use the first pronunciation (some words have multiple)
+        #pronunciations = d[word][0]
+        #print(pronunciations)
+        word = word.lower()
+        syllable = []
+        pronounce = (d[word][0])
+        for cluster in pronounce:
+            if not cluster[-1].isalpha():
+                syllable.append(cluster)
+        syllables = len(syllable)
+        return(syllables)
 
+    else:
+        cluster = re.findall(r'[aeiouy]+', word)
+        return len(cluster)
+        
 
+print(count_syl("elephant", d))
 
-        return(cmudict.dict(word))
-    
-
-dictionary = {}
-print(count_syl("hello", dictionary))
 
 
 def read_novels(path=Path.cwd() / "texts" / "novels"):
