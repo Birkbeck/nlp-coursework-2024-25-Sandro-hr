@@ -15,19 +15,6 @@ nlp.max_length = 2000000
 d = cmudict.dict()
 
 
-def fk_level(text, d):
-    """Returns the Flesch-Kincaid Grade Level of a text (higher grade is more difficult).
-    Requires a dictionary of syllables per word.
-
-    Args:
-        text (str): The text to analyze.
-        d (dict): A dictionary of syllables per word.
-
-    Returns:
-        float: The Flesch-Kincaid Grade Level of the text. (higher grade is more difficult)
-    """
-    pass
-
 def count_syl(word, d):
     """Counts the number of syllables in a word given a dictionary of syllables per word.
     if the word is not in the dictionary, syllables are estimated by counting vowel clusters
@@ -40,9 +27,6 @@ def count_syl(word, d):
         int: The number of syllables in the word.
     """
     if word in d:
-        # Use the first pronunciation (some words have multiple)
-        #pronunciations = d[word][0]
-        #print(pronunciations)
         word = word.lower()
         syllable = []
         pronounce = (d[word][0])
@@ -57,7 +41,36 @@ def count_syl(word, d):
         return len(cluster)
         
 
-print(count_syl("elephant", d))
+#print(count_syl("elephant", d))
+
+def fk_level(text, d):
+    """Returns the Flesch-Kincaid Grade Level of a text (higher grade is more difficult).
+    Requires a dictionary of syllables per word.
+
+    Args:
+        text (str): The text to analyze.
+        d (dict): A dictionary of syllables per word.
+
+    Returns:
+        float: The Flesch-Kincaid Grade Level of the text. (higher grade is more difficult)
+    """
+    sentences = len(nltk.sent_tokenize(text))
+    items = nltk.word_tokenize(text)
+    words = []
+    for item in items:
+        if item.isalpha():
+            words.append(item)
+    syllables = 0
+    for word in words:
+        syllables += count_syl(word,d)
+    words = len(words)
+    #print(sentences,words,syllables)
+    fk = 0.39*(words/sentences)+11.8*(syllables/words)-15.59
+    return fk
+
+print(fk_level("Hello my name is Sandro. I am twenty five years old and I am blonde. Thank you for coming to my ted talk.", d))
+
+
 
 
 
