@@ -2,6 +2,7 @@
 
 # Note: The template functions here and the dataframe format for structuring your solution is a suggested but not mandatory approach. You can use a different approach if you like, as long as you clearly answer the questions and communicate your answers clearly.
 
+import cmudict 
 import nltk
 import spacy
 from pathlib import Path
@@ -26,7 +27,6 @@ def fk_level(text, d):
     """
     pass
 
-
 def count_syl(word, d):
     """Counts the number of syllables in a word given a dictionary of syllables per word.
     if the word is not in the dictionary, syllables are estimated by counting vowel clusters
@@ -38,13 +38,21 @@ def count_syl(word, d):
     Returns:
         int: The number of syllables in the word.
     """
-    pass
+
+    if word in d:
+
+
+
+        return(cmudict.dict(word))
+    
+
+dictionary = {}
+print(count_syl("hello", dictionary))
 
 
 def read_novels(path=Path.cwd() / "texts" / "novels"):
     """Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
     author, and year"""
-    #dirpath = r'p1-texts\novels'
     
     data = []
     for root, dirs, files in os.walk(path, topdown=False):
@@ -78,8 +86,16 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
 
+    tokens = []
+    clean_tokens = []
+    tokens.extend(nltk.word_tokenize(text))
+    for token in tokens:
+        if token.isalpha():
+            clean_tokens.append(token.lower())
     
-    pass
+    ttr = len(set(clean_tokens)) / len(clean_tokens)
+    return ttr
+
 
 
 def get_ttrs(df):
@@ -122,9 +138,9 @@ if __name__ == "__main__":
     uncomment the following lines to run the functions once you have completed them
     """
     path = Path.cwd() / "p1-texts" / "novels"
-    print(path)
-    df = read_novels(path) # this line will fail until you have completed the read_novels function above.
-    print(df.head())
+    #print(path)
+    #df = read_novels(path) # this line will fail until you have completed the read_novels function above.
+    #print(df.head())
     #nltk.download("cmudict")
     #parse(df)
     #print(df.head())
