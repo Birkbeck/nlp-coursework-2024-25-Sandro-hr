@@ -1,1 +1,17 @@
 Answers to the text questions go here.
+
+Question - Part One - d
+
+The Flesch Kinkaid score is a metric used to assess the complexity of a text, 
+by looking at the average words per sentence and the average syllables 
+per word. Although it can be a useful metric, its score can lead to inaccuacies by
+not taking into account target audience, grammar, punctuation, writing style or overall structure.
+
+This is best exemplified in two situations.  A text might explain a complex topic 
+using short sentences and simple words, leading to a low score; however, readers 
+unfamiliar with certain terminology may still find it difficult to understand. On 
+the other hand, we could have a text that is simple in nature but, the use of longer 
+words and sentences leads to a higher score.
+
+These are the main two situations in which the Flesch Kinkaid score can lead to 
+inaccuracies when assessing text complexity.
