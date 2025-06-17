@@ -9,7 +9,7 @@ from pathlib import Path
 import os
 import pandas as pd
 import re
-
+import token
 
 
 
@@ -164,16 +164,19 @@ def subjects_by_verb_pmi(doc, target_verb):
 
 def subjects_by_verb_count(doc, verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    subjects = []
+    subjects = dict()
     for word in doc:
         if word.pos_ == "VERB":
             if word.lemma_ == verb:
-                if word not in subjects:
-                    subjects[word] = 1
-                else:
-                    subjects[word] += 1
-    
-    return subjects
+                if word in token.lefts:
+                    if word.pos_ in ["NOUN", "PROPN", "PRON"] and word.dep_ in ["nsubj", "nsubjpass"]:
+                        subj = word.lemma_.lower()
+                        if subj not in subjects:
+                            subjects[subj] = 1
+                        else:
+                            subjects[subj] += 1
+
+    return dict(sorted(subjects.items(), key=lambda x: x[1], reverse=True)[:10])
 
 
 
