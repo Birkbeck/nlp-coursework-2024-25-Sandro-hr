@@ -164,12 +164,16 @@ def subjects_by_verb_pmi(doc, target_verb):
 
 def subjects_by_verb_count(doc, verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    verbs = []
+    subjects = []
     for word in doc:
         if word.pos_ == "VERB":
-            verbs.append(word)
+            if word.lemma_ == verb:
+                if word not in subjects:
+                    subjects[word] = 1
+                else:
+                    subjects[word] += 1
     
-    return verbs
+    return subjects
 
 
 
