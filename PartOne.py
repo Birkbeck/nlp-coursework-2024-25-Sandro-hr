@@ -12,6 +12,8 @@ import re
 import pickle
 
 
+
+
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
 d = cmudict.dict()
@@ -114,12 +116,14 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     
     """ii. Serialise the resulting dataframe (i.e., write it out to disk) using the pickle
     format."""
-    df.pickle(store_path/out_name)
+    df.to_pickle(store_path/out_name)
     """iii. Return the dataframe."""
     return(df)
     """iv. Load the dataframe from the pickle file and use it for the remainder of this
     coursework part. Note: one or more of the texts may exceed the default
     """
+
+    
     
 
 print(parse([0]))
@@ -189,7 +193,7 @@ if __name__ == "__main__":
     #print(get_fks(df))
     #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
     # print(adjective_counts(df))
-    """ 
+    
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_count(row["parsed"], "hear"))
@@ -199,5 +203,5 @@ if __name__ == "__main__":
         print(row["title"])
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
         print("\n")
-    """
+    
 
