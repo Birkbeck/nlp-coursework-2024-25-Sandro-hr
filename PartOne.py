@@ -104,7 +104,23 @@ def read_novels(path=Path.cwd() / "texts" / "novels"):
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     """Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
     the resulting  DataFrame to a pickle file"""
-    pass
+    """parse: The goal of this function is to process the texts with spaCy’s tokenizer 9
+    and parser, and store the processed texts. Your completed function should:
+    i. Use the spaCy nlp method to add a new column to the dataframe that
+    contains parsed and tokenized Doc objects for each text.
+    ii. Serialise the resulting dataframe (i.e., write it out to disk) using the pickle
+    format.
+    iii. Return the dataframe.
+    iv. Load the dataframe from the pickle file and use it for the remainder of this
+    coursework part. Note: one or more of the texts may exceed the default
+    """
+    for root, dirs, files in os.walk(path, topdown=False):
+        for name in files:
+            if name.endswith(".txt"):
+                with open(path, encoding='utf-8') as f:
+                    text = f.read()
+                    doc = nlp(text)
+
 
 
 def nltk_ttr(text):
