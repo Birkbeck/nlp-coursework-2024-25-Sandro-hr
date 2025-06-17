@@ -9,7 +9,7 @@ from pathlib import Path
 import os
 import pandas as pd
 import re
-import pickle
+
 
 
 
@@ -123,10 +123,6 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     coursework part. Note: one or more of the texts may exceed the default
     """
 
-    
-    
-
-print(parse([0]))
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
@@ -168,7 +164,14 @@ def subjects_by_verb_pmi(doc, target_verb):
 
 def subjects_by_verb_count(doc, verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    pass
+    verbs = []
+    for word in doc:
+        if word.pos_ == "VERB":
+            verbs.append(word)
+    
+    return verbs
+
+
 
 
 
@@ -194,7 +197,7 @@ if __name__ == "__main__":
     #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
     # print(adjective_counts(df))
     
-    for i, row in df.iterrows():
+    """for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_count(row["parsed"], "hear"))
         print("\n")
@@ -202,6 +205,6 @@ if __name__ == "__main__":
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
-        print("\n")
+        print("\n")"""
     
 
