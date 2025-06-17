@@ -11,6 +11,7 @@ import pandas as pd
 import re
 import pickle
 
+
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
 d = cmudict.dict()
@@ -112,9 +113,11 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     df["parsed"] = df["text"].apply(nlp)
     
     """ii. Serialise the resulting dataframe (i.e., write it out to disk) using the pickle
-    format.
-    iii. Return the dataframe.
-    iv. Load the dataframe from the pickle file and use it for the remainder of this
+    format."""
+    df.pickle(store_path/out_name)
+    """iii. Return the dataframe."""
+    return(df)
+    """iv. Load the dataframe from the pickle file and use it for the remainder of this
     coursework part. Note: one or more of the texts may exceed the default
     """
     
