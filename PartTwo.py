@@ -2,13 +2,15 @@ import pandas as pd
 
 filepath = ("p2-texts\hansard40000.csv")
 
-def altering_party(filepath):
+data = pd.read_csv(filepath)
 
-    data = pd.read_csv(filepath)
+# a-i)
+data["party"] = data["party"].replace({"Labour (Co-op)": "Labour"})
 
-    # a-i)
-    data['party'] = data['party'].replace({'Labour (Co-op)': 'Labour'})
+#a-ii)
 
-def removing_values(filepath):
+data = data[data["party"] != "Speaker"]
 
-    data = pd.read_csv(filepath)
+top_parties = data["party"].value_counts().nlargest(4).index.tolist()
+
+data = data[data["party"].isin(top_parties)]
