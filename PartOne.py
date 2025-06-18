@@ -186,7 +186,7 @@ def subjects_by_verb_pmi(doc, target_verb):
             pmi = math.log(p_joint / (p_subject * p_verb), 2)
             pmi_scores[subject] = round(pmi, 4)
 
-    return pmi_scores
+    return sorted(pmi_scores.items(), key=lambda x: x[1], reverse=True)[:10]
 
 
 def subjects_by_verb_count(doc, verb):
@@ -210,7 +210,15 @@ def subjects_by_verb_count(doc, verb):
 
 def adjective_counts(doc):
     """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
-    pass
+    adjective = []
+    for word in doc:
+        if word.pos_ == "ADJ":
+            if word in token.lefts:
+                adj = word.lemma_.lower()
+                if adj not in adjective:
+                    adjective[adj] = 1
+                else:
+                    adjective[adj] += 1
 
 
 
