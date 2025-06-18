@@ -47,8 +47,6 @@ def count_syl(word, d):
         return len(cluster)
         
 
-#print(count_syl("elephant", d))
-
 def fk_level(text, d):
     """Returns the Flesch-Kincaid Grade Level of a text (higher grade is more difficult).
     Requires a dictionary of syllables per word.
@@ -70,14 +68,8 @@ def fk_level(text, d):
     for word in words:
         syllables += count_syl(word,d)
     words = len(words)
-    #print(sentences,words,syllables)
     fk = 0.39*(words/sentences)+11.8*(syllables/words)-15.59
     return fk
-
-print(fk_level("Hello my name is Sandro. I am twenty five years old and I am blonde. Thank you for coming to my ted talk.", d))
-
-
-
 
 
 def read_novels(path=Path.cwd() / "texts" / "novels"):
@@ -210,16 +202,16 @@ def subjects_by_verb_count(doc, verb):
 
 def adjective_counts(doc):
     """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
-    adjective = []
+    adjectives = []
     for word in doc:
         if word.pos_ == "ADJ":
-            if word in token.lefts:
-                adj = word.lemma_.lower()
-                if adj not in adjective:
-                    adjective[adj] = 1
-                else:
-                    adjective[adj] += 1
+            adj = word.lemma_.lower()
+            if adj not in adjectives:
+                adjectives[adj] = 1
+            else:
+                adjectives[adj] += 1
 
+    return sorted(adjectives.items(), key=lambda x: x[1], reverse=True)[:10]
 
 
 if __name__ == "__main__":
@@ -236,7 +228,7 @@ if __name__ == "__main__":
     #print(get_ttrs(df))
     #print(get_fks(df))
     #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
-    # print(adjective_counts(df))
+    #print(adjective_counts(df))
     
     """for i, row in df.iterrows():
         print(row["title"])
