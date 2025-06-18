@@ -202,7 +202,7 @@ def subjects_by_verb_count(doc, verb):
 
 def adjective_counts(doc):
     """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
-    adjectives = []
+    adjectives = {}
     for word in doc:
         if word.pos_ == "ADJ":
             adj = word.lemma_.lower()
