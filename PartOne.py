@@ -158,7 +158,13 @@ def get_fks(df):
 
 def subjects_by_verb_pmi(doc, target_verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    pass
+    subjects = []
+    for word in doc:
+        if word.lemma_ == verb and word.pos_ == "VERB":
+            for child in word.children:
+                if child.dep_ in ["nsubj", "nsubjpass"]:
+                    subjects.append(child.lemma_.lower())
+    return subjects
 
 
 
