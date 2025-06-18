@@ -5,11 +5,13 @@
 import cmudict 
 import nltk
 import spacy
-from pathlib import Path
 import os
 import pandas as pd
 import re
 import token
+import math
+from pathlib import Path
+from collections import Counter
 
 
 
@@ -158,29 +160,47 @@ def get_fks(df):
 
 def subjects_by_verb_pmi(doc, target_verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    subjects = []
+    co_occurrence = Counter()
+    subject_total = Counter()
+    verb_count = 0
+    total_tokens = len(doc)
+
     for word in doc:
-        if word.lemma_ == verb and word.pos_ == "VERB":
+        if word.dep_ in ["nsubj", "nsubjpass"]:
+            subject_total[word.lemma_.lower()] += 1
+        
+        if word.lemma_ == target_verb and word.pos_ == "VERB":
+            verb_count += 1
             for child in word.children:
                 if child.dep_ in ["nsubj", "nsubjpass"]:
-                    subjects.append(child.lemma_.lower())
-    return subjects
+                    co_occurrence[child.lemma_.lower()] += 1
 
+    pmi_scores = {}
+
+    for subject in co_occurrence:
+        p_subject = subject_total[subject] / total_tokens
+        p_verb = verb_count / total_tokens
+        p_joint = co_occurrence[subject] / total_tokens
+
+        if p_subject > 0 and p_verb > 0 and p_joint > 0:
+            pmi = math.log(p_joint / (p_subject * p_verb), 2)
+            pmi_scores[subject] = round(pmi, 4)
+
+    return pmi_scores
 
 
 def subjects_by_verb_count(doc, verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
     subjects = dict()
     for word in doc:
-        if word.pos_ == "VERB":
-            if word.lemma_ == verb:
-                if word in token.lefts:
-                    if word.pos_ in ["NOUN", "PROPN", "PRON"] and word.dep_ in ["nsubj", "nsubjpass"]:
-                        subj = word.lemma_.lower()
-                        if subj not in subjects:
-                            subjects[subj] = 1
-                        else:
-                            subjects[subj] += 1
+        if word.pos_ == "VERB" and word.lemma_ == verb:
+            if word in token.lefts:
+                if word.pos_ in ["NOUN", "PROPN", "PRON"] and word.dep_ in ["nsubj", "nsubjpass"]:
+                    subj = word.lemma_.lower()
+                    if subj not in subjects:
+                        subjects[subj] = 1
+                    else:
+                        subjects[subj] += 1
 
     return dict(sorted(subjects.items(), key=lambda x: x[1], reverse=True)[:10])
 
