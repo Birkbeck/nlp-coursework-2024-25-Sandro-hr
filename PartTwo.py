@@ -65,3 +65,28 @@ print(f1_score_svm)
 #d)
 
 vectorizer = TfidfVectorizer(max_features=3000, stop_words="english", ngram_range=(1, 3))
+
+X = vectorizer.fit_transform(data["speech"])
+y = data["party"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.33, random_state=26, stratify=y)
+
+rand = RandomForestClassifier(n_estimators=300, random_state=26)
+rand.fit(X_train, y_train)
+rand_pred = rand.predict(X_test)
+print("Random Forest Results:")
+print(classification_report(y_test, rand_pred))
+
+svm = SVC(kernel="linear", random_state=26)
+svm.fit(X_train, y_train)
+svm_pred = svm.predict(X_test)
+print("SVM Results:")
+print(classification_report(y_test, svm_pred))
+
+f1_score_rand = f1_score(rand_pred,y_test, average=None)
+f1_score_svm = f1_score(svm_pred, y_test, average=None)
+print("Random forest F1 Score:")
+print(f1_score_rand)
+print("SVM F1 Score:")
+print(f1_score_svm)
