@@ -19,6 +19,12 @@ data = data[data["party"].isin(top_parties)]
 
 data_clean = data[:]
 
-rows_to_drop = data_clean[data_clean['speech_class'] != "Speech"].index
+rows_to_drop = data_clean[data_clean["speech_class"] != "Speech"].index
+
+data_clean = data_clean.drop(rows_to_drop)
+
+#a-iv)
+
+rows_to_drop = data_clean[data_clean["speech"].str.len() < 1000].index
 
 data_clean = data_clean.drop(rows_to_drop)
