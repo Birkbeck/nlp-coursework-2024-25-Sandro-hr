@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from time import time 
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report
+from sklearn.metrics import f1_score
 
 filepath = ("p2-texts\hansard40000.csv")
 
@@ -53,3 +54,10 @@ svm.fit(X_train, y_train)
 svm_pred = svm.predict(X_test)
 print("SVM Results:")
 print(classification_report(y_test, svm_pred))
+
+f1_score_rand = f1_score(rand_pred,y_test, average=None)
+f1_score_svm = f1_score(svm_pred, y_test, average=None)
+print("Random forest F1 Score:")
+print(f1_score_rand)
+print("SVM F1 Score:")
+print(f1_score_svm)
