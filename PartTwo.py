@@ -1,4 +1,6 @@
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from time import time 
 
 filepath = ("p2-texts\hansard40000.csv")
 
@@ -23,3 +25,7 @@ data = data[data['speech_class'] == 'Speech']
 #a-iv)
 
 data = data[data['speech'].str.len() >= 1000]  
+
+#b)
+"t0 = time()"
+vectorizer = TfidfVectorizer(max_features=5000, stop_words="english")
