@@ -1,7 +1,10 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 from time import time 
+from sklearn.svm import SVC
+from sklearn.metrics import classification_report
 
 filepath = ("p2-texts\hansard40000.csv")
 
@@ -36,3 +39,17 @@ y = data["party"]
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.33, random_state=26, stratify=y)
+
+#c)
+
+rand = RandomForestClassifier(n_estimators=300, random_state=26)
+rand.fit(X_train, y_train)
+rand_pred = rand.predict(X_test)
+print("Random Forest Results:")
+print(classification_report(y_test, rand_pred))
+
+svm = SVC(kernel="linear", random_state=26)
+svm.fit(X_train, y_train)
+svm_pred = svm.predict(X_test)
+print("SVM Results:")
+print(classification_report(y_test, svm_pred))

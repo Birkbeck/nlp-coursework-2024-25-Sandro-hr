@@ -1,4 +1,4 @@
-Full Name (as on student record): Sandro Herring Rodriguez
+Full Name (as on student record): Sandro Herring
 
 Student number: 13714665
 
