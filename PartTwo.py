@@ -61,3 +61,7 @@ print("Random forest F1 Score:")
 print(f1_score_rand)
 print("SVM F1 Score:")
 print(f1_score_svm)
+
+#d)
+
+vectorizer = TfidfVectorizer(max_features=3000, stop_words="english", ngram_range=(1, 3))
