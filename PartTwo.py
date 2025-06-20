@@ -6,6 +6,9 @@ from time import time
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report
 from sklearn.metrics import f1_score
+from nltk.tokenize import word_tokenize
+import string
+import nltk
 
 filepath = ("p2-texts\hansard40000.csv")
 
@@ -90,3 +93,15 @@ print("Random forest F1 Score:")
 print(f1_score_rand)
 print("SVM F1 Score:")
 print(f1_score_svm)
+
+#e)
+
+nltk.download("punkt", quiet=True)
+
+def custom_tokenizer(text):
+    tokens = word_tokenize(text)
+    clean_tokens = []
+    for token in tokens:
+        if token.isalpha() and token.lower() not in string.punctuation:
+            clean_tokens.append(token)
+    return clean_tokens
