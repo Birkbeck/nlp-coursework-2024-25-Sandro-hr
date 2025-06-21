@@ -46,7 +46,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 #c)
 
-rand = RandomForestClassifier(n_estimators=300, random_state=26)
+rand = RandomForestClassifier(n_estimators=300, random_state=26, n_jobs=-1)
 rand.fit(X_train, y_train)
 rand_pred = rand.predict(X_test)
 print("Random Forest Results:")
@@ -75,7 +75,7 @@ y = data["party"]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.33, random_state=26, stratify=y)
 
-rand = RandomForestClassifier(n_estimators=300, random_state=26)
+rand = RandomForestClassifier(n_estimators=300, random_state=26, n_jobs=-1)
 rand.fit(X_train, y_train)
 rand_pred = rand.predict(X_test)
 print("Random Forest Results:")
@@ -114,7 +114,7 @@ y = data["party"]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.33, random_state=26, stratify=y)
 
-rand = RandomForestClassifier(n_estimators=300, random_state=26)
+rand = RandomForestClassifier(n_estimators=300, random_state=26, n_jobs=-1)
 rand.fit(X_train, y_train)
 rand_pred = rand.predict(X_test)
 print("Random Forest Results:")
