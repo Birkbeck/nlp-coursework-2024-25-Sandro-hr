@@ -9,8 +9,11 @@ from sklearn.metrics import f1_score
 from nltk.tokenize import word_tokenize
 import string
 import nltk
+import spacy
 
 filepath = ("p2-texts\hansard40000.csv")
+
+nlp = spacy.load("en_core_web_sm")
 
 data = pd.read_csv(filepath)
 
@@ -34,7 +37,7 @@ data = data[data['speech_class'] == 'Speech']
 #a-iv)
 
 data = data[data['speech'].str.len() >= 1000]  
-
+"""
 #b)
 "t0 = time()"
 vectorizer = TfidfVectorizer(max_features=3000, stop_words="english")
@@ -94,17 +97,23 @@ print("Random forest F1 Score:")
 print(f1_score_rand)
 print("SVM F1 Score:")
 print(f1_score_svm)
-
+"""
 #e)
 print("CUSTOM TOKENISER")
 nltk.download("punkt", quiet=True)
 
 def custom_tokenizer(text):
-    tokens = word_tokenize(text)
+    doc = nlp(text)
+    clean_tokens = []
+    for token in doc:
+        if token.is_alpha:
+            clean_tokens.append(token.lemma_.lower())
+            
+    """tokens = word_tokenize(text)
     clean_tokens = []
     for token in tokens:
-        if token.isalpha() and token.lower() not in string.punctuation:
-            clean_tokens.append(token)
+        if token.isalpha():
+            clean_tokens.append(token.lower())"""
     return clean_tokens
 
 vectorizer = TfidfVectorizer(tokenizer=custom_tokenizer, stop_words='english', max_features=3000)

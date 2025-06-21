@@ -38,3 +38,10 @@ led to the removal of useful tokens which could aid in party differentiation.
 I will now apply lemmatisation and lowercasing (which I thought I had done already, but
 I only just realised that I only took the lowercase words, instead of making them all 
 lowercase) to the custom tokeniser to see if it has any effect on the output.
+
+Using spacy tokeniser, SVM showed slight improvements (from 0.57 to 0.59) especially in the 
+smalled classes parties. However, Random Forest performance (from 0.47 to 0.42).
+
+It seems that spacy benefited SVM exclusively and not Random Forest, possibly due to the possible
+simplification of the feature space. This shows the effect that varying classifiers have on 
+tokeniser performace.
