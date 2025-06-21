@@ -23,6 +23,7 @@ data = data[data["party"] != "Speaker"]
 
 top_parties = data["party"].value_counts().nlargest(4).index.tolist()
 
+print(top_parties)
 data = data[data["party"].isin(top_parties)]
 
 #a-iii)
@@ -50,13 +51,13 @@ rand = RandomForestClassifier(n_estimators=300, random_state=26, n_jobs=-1)
 rand.fit(X_train, y_train)
 rand_pred = rand.predict(X_test)
 print("Random Forest Results:")
-print(classification_report(y_test, rand_pred))
+print(classification_report(y_test, rand_pred, zero_division=0))
 
 svm = SVC(kernel="linear", random_state=26)
 svm.fit(X_train, y_train)
 svm_pred = svm.predict(X_test)
 print("SVM Results:")
-print(classification_report(y_test, svm_pred))
+print(classification_report(y_test, svm_pred, zero_division=0))
 
 f1_score_rand = f1_score(y_test, rand_pred, average='macro')
 f1_score_svm = f1_score(y_test, svm_pred, average='macro')
@@ -79,13 +80,13 @@ rand = RandomForestClassifier(n_estimators=300, random_state=26, n_jobs=-1)
 rand.fit(X_train, y_train)
 rand_pred = rand.predict(X_test)
 print("Random Forest Results:")
-print(classification_report(y_test, rand_pred))
+print(classification_report(y_test, rand_pred, zero_division=0))
 
 svm = SVC(kernel="linear", random_state=26)
 svm.fit(X_train, y_train)
 svm_pred = svm.predict(X_test)
 print("SVM Results:")
-print(classification_report(y_test, svm_pred))
+print(classification_report(y_test, svm_pred, zero_division=0))
 
 f1_score_rand = f1_score(y_test, rand_pred, average='macro')
 f1_score_svm = f1_score(y_test, svm_pred, average='macro')
@@ -95,7 +96,7 @@ print("SVM F1 Score:")
 print(f1_score_svm)
 
 #e)
-
+print("CUSTOM TOKENISER")
 nltk.download("punkt", quiet=True)
 
 def custom_tokenizer(text):
@@ -118,13 +119,13 @@ rand = RandomForestClassifier(n_estimators=300, random_state=26, n_jobs=-1)
 rand.fit(X_train, y_train)
 rand_pred = rand.predict(X_test)
 print("Random Forest Results:")
-print(classification_report(y_test, rand_pred))
+print(classification_report(y_test, rand_pred, zero_division=0))
 
 svm = SVC(kernel="linear", random_state=26)
 svm.fit(X_train, y_train)
 svm_pred = svm.predict(X_test)
 print("SVM Results:")
-print(classification_report(y_test, svm_pred))
+print(classification_report(y_test, svm_pred, zero_division=0))
 
 
 f1_score_rand = f1_score(rand_pred,y_test, average=None)

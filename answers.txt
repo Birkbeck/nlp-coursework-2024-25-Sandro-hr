@@ -15,3 +15,26 @@ words and sentences leads to a higher score.
 
 These are the main two situations in which the Flesch Kinkaid score can lead to 
 inaccuracies when assessing text complexity.
+
+Question - Part Two - f
+
+I used NLTKs word_tokenise and only allowed alphabetic tokens in an effort to reduce 
+the amount of noise in the sentence and produce a cleaner input representation for 
+the TF-IDF vectorizer giving me more control as I would be reducing the number of
+potential variables available to tokenise.
+
+The F1 score for the Random Forest classifier remained relatively low in all cases, 
+largely due to poor performance on Liberal Democrats. The SVM classifier consistently 
+outperformed Random Forest across all configurations.
+
+The custom tokeniser had mixed a mixed performance. It showed improvement compared to
+the baseline, espcially with SVM, and it generally helped reatin good performance on
+the classes that dominated like Conservative. However, the non dominant classes showed
+minimal if any improvement and continued to have poor predictions.
+
+the removal of punctuation and numbers might have reduced noise, but probably has also 
+led to the removal of useful tokens which could aid in party differentiation.
+
+I will now apply lemmatisation and lowercasing (which I thought I had done already, but
+I only just realised that I only took the lowercase words, instead of making them all 
+lowercase) to the custom tokeniser to see if it has any effect on the output.
